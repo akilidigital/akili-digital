@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accès confirmé — Akili Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07100E;
+    --bg2: #0D1A16;
+    --bg3: #142820;
+    --green: #0ECB81;
+    --green2: #27E89A;
+    --text: #C8DDD6;
+    --muted: #4A6B5E;
+    --gold: #C9A84C;
+    --border: rgba(14,203,129,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(14,203,129,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* SUCCESS ANIMATION */
+  .success-ring {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(14,203,129,0.08);
+    border: 2px solid rgba(14,203,129,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    position: relative;
+    animation: ringPulse 2s ease infinite;
+  }
+
+  .success-ring::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px solid rgba(14,203,129,0.1);
+    animation: ringPulse 2s ease infinite 0.3s;
+  }
+
+  @keyframes ringPulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+  }
+
+  .check {
+    font-size: 2.5rem;
+    animation: checkPop 0.5s ease both;
+  }
+
+  @keyframes checkPop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1rem;
+    animation: fadeUp 0.5s 0.2s ease both;
+    opacity: 0;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.5s 0.3s ease both;
+    opacity: 0;
+  }
+
+  h1 em { font-style: italic; color: var(--green); }
+
+  .sub {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+    animation: fadeUp 0.5s 0.4s ease both;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DOWNLOAD CARD */
+  .download-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s 0.5s ease both;
+    opacity: 0;
+  }
+
+  .download-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+  }
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+
+  .file-icon {
+    width: 50px; height: 50px;
+    background: rgba(14,203,129,0.08);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .file-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #E8F5F0;
+    margin-bottom: 0.2rem;
+  }
+
+  .file-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .btn-download {
+    display: block;
+    width: 100%;
+    background: var(--green);
+    color: var(--bg);
+    padding: 1rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 3px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(14,203,129,0.25);
+  }
+
+  .btn-download:hover {
+    background: var(--green2);
+    transform: translateY(-1px);
+  }
+
+  /* INSTRUCTIONS */
+  .instructions {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    text-align: left;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s 0.6s ease both;
+    opacity: 0;
+  }
+
+  .instr-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1rem;
+  }
+
+  .step-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .step-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.83rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .step-num {
+    width: 22px; height: 22px;
+    background: rgba(14,203,129,0.1);
+    border: 1px solid rgba(14,203,129,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  /* BONUS */
+  .bonus-card {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 4px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s 0.7s ease both;
+    opacity: 0;
+  }
+
+  .bonus-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+  .bonus-text h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 0.2rem;
+  }
+
+  .bonus-text p {
+    font-size: 0.77rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* SHARE */
+  .share-section {
+    animation: fadeUp 0.5s 0.8s ease both;
+    opacity: 0;
+    margin-bottom: 2rem;
+  }
+
+  .share-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+
+  .share-btns {
+    display: flex;
+    gap: 0.7rem;
+    justify-content: center;
+  }
+
+  .share-btn {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    background: var(--bg2);
+    color: var(--text);
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .share-btn:hover { border-color: var(--green); color: var(--green); }
+
+  /* FOOTER */
+  .footer-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    animation: fadeUp 0.5s 0.9s ease both;
+    opacity: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="success-ring">
+    <div class="check">✓</div>
+  </div>
+
+  <div class="eyebrow">✦ Paiement confirmé</div>
+  <h1>Ton accès est <em>prêt !</em></h1>
+  <p class="sub">Merci pour ta commande. Télécharge ton Business AI Planner 2026 ci-dessous et commence dès aujourd'hui.</p>
+
+  <!-- DOWNLOAD CARD -->
+  <div class="download-card">
+    <div class="file-info">
+      <div class="file-icon">📊</div>
+      <div>
+        <div class="file-name">Business AI Planner 2026</div>
+        <div class="file-meta">HTML · Application web · Akili Digital</div>
+      </div>
+    </div>
+    <!-- REMPLACE LE HREF PAR TON VRAI LIEN DE FICHIER -->
+    <a class="btn-download" href="business-ai-planner-2026.html" download="Business-AI-Planner-2026-AkiliDigital.html">
+      ⬇ Télécharger maintenant
+    </a>
+  </div>
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <div class="instr-title">Comment utiliser ton outil</div>
+    <ul class="step-list">
+      <li>
+        <div class="step-num">1</div>
+        <span>Télécharge le fichier sur ton téléphone ou ordinateur</span>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <span>Ouvre le fichier directement dans Chrome ou Firefox — aucune installation nécessaire</span>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <span>Explore les 5 onglets : Modèles, Simulateur, Comparaison, Roadmap, Conseiller IA</span>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <span>Commence par le simulateur pour calculer tes revenus potentiels selon ton profil</span>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <span>Pose tes questions au Conseiller IA intégré pour un plan d'action personnalisé</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- BONUS -->
+  <div class="bonus-card">
+    <div class="bonus-icon">🎁</div>
+    <div class="bonus-text">
+      <h4>Bonus : Rejoins la communauté Akili Digital</h4>
+      <p>Groupe WhatsApp privé d'entrepreneurs IA francophones. Partage, pose tes questions, reçois les mises à jour.</p>
+    </div>
+  </div>
+
+  <!-- SHARE -->
+  <div class="share-section">
+    <div class="share-label">Tu as aimé ? Partage à un ami</div>
+    <div class="share-btns">
+      <a class="share-btn" href="https://wa.me/?text=J'ai%20téléchargé%20le%20Business%20AI%20Planner%202026%20d'Akili%20Digital.%20Très%20utile%20pour%20lancer%20son%20business%20IA%20%F0%9F%9A%80" target="_blank">📱 WhatsApp</a>
+      <a class="share-btn" href="https://t.me/share/url?url=https://akilidigital.com&text=Business%20AI%20Planner%202026" target="_blank">✈️ Telegram</a>
+      <a class="share-btn" onclick="copyLink()" href="#">🔗 Copier le lien</a>
+    </div>
+  </div>
+
+  <div class="footer-note">© 2026 Akili Digital · Merci pour ta confiance · Support : <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e0818b898c898489878994818ca0878d81898cce838f8d">[email&#160;protected]</a></div>
+
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/emai
