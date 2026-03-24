@@ -653,10 +653,14 @@
     inset: 0;
     background: rgba(26,21,16,0.75);
     z-index: 1000;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 0;
     backdrop-filter: blur(4px);
+  }
+  @media (min-width: 600px) {
+    .modal-overlay { align-items: center; padding: 1.5rem; }
+    .modal { border-radius: 4px; }
   }
 
   .modal-overlay.open { display: flex; }
@@ -669,6 +673,9 @@
     overflow: hidden;
     box-shadow: 0 20px 80px rgba(26,21,16,0.3);
     animation: slideUp 0.3s ease;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
   }
 
   @keyframes slideUp {
@@ -717,7 +724,7 @@
     padding: 0.3rem;
   }
 
-  .modal-body { padding: 2rem; }
+  .modal-body { padding: 2rem; overflow-y: auto; max-height: 75vh; -webkit-overflow-scrolling: touch; padding-bottom: 3rem; }
 
   .modal-price-row {
     display: flex;
@@ -843,6 +850,10 @@
     .price-block { padding: 1.8rem 2rem; }
     .final-cta { padding: 3rem 1.5rem; }
     h1 { font-size: 2.4rem; }
+    .modal { width: 100%; border-radius: 16px 16px 0 0; max-height: 88vh; }
+    .modal-body { padding: 1.5rem; padding-bottom: 4rem; }
+    .pm-grid { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+    .pm-option { padding: 0.6rem 0.3rem; font-size: 0.62rem; }
   }
 </style>
 </head>
@@ -1198,7 +1209,7 @@ function redirectToChariow() {
   
   // ✅ REMPLACE ICI PAR TON VRAI LIEN CHARIOW
   // Configure dans Chariow : après paiement → redirect vers acces-X7k3rjWAbxkTUL-6.html
-  const chariowURL = "TON_LIEN_CHARIOW_ICI";
+  const chariowURL = "https://wfvqgkio.mychariow.shop/prd_m2z1bk";
   
   if (chariowURL === "TON_LIEN_CHARIOW_ICI") {
     // MODE DEMO : simule la redirection
